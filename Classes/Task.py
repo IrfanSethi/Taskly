@@ -15,5 +15,5 @@ class Task:
         self.priority = priority
     
     def __repr__(self):
-        return f"Task Name: {self.description}\nDue Date: {self.duedate}\nDuration: {self.duration} min\nPriority: {self.priority}"
+        return f"\nTask Name: {self.description}\nDue Date: {self.duedate}\nDuration: {self.duration} min\nPriority: {self.priority}\n"
 

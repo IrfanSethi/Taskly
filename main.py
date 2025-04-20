@@ -13,6 +13,7 @@ root.title("Calendar")
 root.geometry("600x700")
 
 # Title label
+mainTitle = tb.Label(root, text="Calendar", font=titleFont)
 mainTitle.pack()
 
 # Notebook (tabs)

@@ -3,16 +3,41 @@ import ttkbootstrap as tb
 
 root = tb.Window(themename="superhero")
 root.title("CALENDAR")
-root.geometry("500x350")
+root.geometry("500x1000")
 my_date = tb.DateEntry(root,bootstyle = "danger")
 my_date.pack(pady=50)
 
-name_widget = tb.Entry()
+name_label = tb.label = tb.Label(root,text = "Enter Task Name: ")
+name_label.pack(side = "left")
+name_widget = tb.Entry(root)
 name_widget.pack(pady = 20)
-due_widget = tb.Entry()
+
+date_label = tb.label = tb.Label(root,text = "Enter when the task is due (hrs-min-DD-MM-YYYY): ")
+date_label.pack(pady = 50)
+due_widget = tb.Entry(root)
 due_widget.pack(pady = 20)
+
+duration_label = tb.label = tb.Label(root,text = "Enter How Long The Task Takes: ")
+duration_label.pack(pady = 50)
 duration_widget = tb.Entry()
 duration_widget.pack(pady = 20)
+
+
+
+
+def speak():
+    my_label.config(text=f"You Entered: {rawDate_entry.get()}")
+
+rawDate_label = tb.label = tb.Label(root,text = "Enter How Long The Task Takes: ")
+rawDate_label.pack(pady = 50)
+rawDate_entry = tb.Entry(root)
+rawDate_entry.pack(pady=50)
+
+mybutton = tb.Button(root,bootstyle="danger outline",text="Enter",command = speak)
+mybutton.pack(pady = 50)
+
+my_label = tb.Label(root,text="")
+my_label.pack(pady=50)
 
 root.mainloop()
 

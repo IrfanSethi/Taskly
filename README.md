@@ -1,34 +1,47 @@
 # Taskly
 
-## Introduction
-Taskly is a modern, user-friendly task management application built with Python and Tkinter (using ttkbootstrap for styling). It is designed to help users efficiently organize, prioritize, and track their daily tasks in a visually appealing way.
+Taskly is a modern, user-friendly task management application for Windows, built with Python and Tkinter (using ttkbootstrap for styling). Designed for productivity, it helps users efficiently organize, prioritize, and track daily tasks in a visually appealing way.
 
-## Overview
-Taskly provides a simple interface for adding, viewing, and managing tasks. Each task can be assigned a due date, time, duration, and priority. The application stores tasks persistently in a text file, allowing users to keep their data between sessions. Taskly is ideal for students and anyone looking to improve their productivity and time management skills.
+# Features
 
-## Features
 - Add tasks with name, due date, time, duration, and priority
 - View all tasks in a sortable, color-coded table
 - Mark tasks as completed (with visual feedback)
-- Delete tasks
+- Delete tasks easily
 - Persistent storage: tasks are saved and loaded from a text file
 - Color-coded priorities: High (red), Medium (orange), Low (green), Completed (white)
 - Theme selector: switch between light, dark, and pitch dark modes
-- Simple, clean, and responsive interface
+- Clean, responsive, and intuitive interface
 
-## Future Steps
-- Add support for recurring tasks
-- Implement notifications or reminders for upcoming tasks
-- Add calendar or timeline views for better visualization
-- Enable task editing and bulk actions
-- Sync tasks with cloud storage or mobile devices
-- Improve data storage (e.g., use JSON or a database)
+# Screenshots
 
-## Why This Project?
-As a high school student aspiring to enter university, I created Taskly to demonstrate my interest in software development, user experience, and productivity tools. This project showcases my ability to:
-- Design and implement a complete application from scratch
-- Use Python and GUI frameworks effectively
-- Apply good coding practices and user interface design
-- Solve real-world problems for students and busy individuals
+![Taskly Screenshot](Screenshot%202025-08-08%20224535.png)
 
-Taskly is both a personal productivity tool and a portfolio project to highlight my skills and passion for technology. I hope it helps others stay organized and motivated, just as it has helped me!
+# Installation
+
+1. Download the latest release from the Releases page.
+2. Run `main.py` (Python 3.8+ required, along with `ttkbootstrap`).
+3. The application window will open and you can start managing your tasks.
+
+# Usage
+
+- **Add Task:** Enter task details and click "Add" to save a new task.
+- **View & Sort:** All tasks appear in a color-coded table, sortable by any column.
+- **Complete or Delete:** Mark tasks as completed or remove them as needed.
+- **Themes:** Switch between light, dark, and pitch dark modes from the theme selector.
+
+# Technologies
+
+- Python 3.8+
+- Tkinter
+- ttkbootstrap
+
+# Why This Project?
+
+Taskly demonstrates practical desktop application development, persistent data storage, and user-focused UI design. It is ideal for students, professionals, and anyone seeking a simple yet powerful way to manage daily tasks.
+
+# License
+
+This project is licensed under the MIT License.
+
+Feel free to contact me for more information or collaboration opportunities!

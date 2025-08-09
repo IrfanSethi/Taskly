@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import font, messagebox
 import ttkbootstrap as tb
 from ttkbootstrap.tooltip import ToolTip
 import calendar
 from datetime import datetime, timedelta, date
+import os
+import ast
 
 # --- Main Application Window ---
 root = tb.Window(themename="flatly")
@@ -24,6 +27,17 @@ except Exception:
 
 # --- Task Storage ---
 tasks = []
+# Load previous entries from last_task.txt if it exists
+if os.path.exists("last_task.txt"):
+    with open("last_task.txt", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                try:
+                    task = ast.literal_eval(line)
+                    tasks.append(task)
+                except Exception:
+                    pass
 
 # --- Status Bar ---
 status_var = StringVar(value="Welcome to Taskly!")
@@ -180,6 +194,9 @@ def add_task():
         "status": "Pending"
     }
     tasks.append(task)
+    # Append the new task to the text file with a new line
+    with open("last_task.txt", "a", encoding="utf-8") as f:
+        f.write(str(task) + "\n")
     refresh_tasks()
     name_widget.delete(0, END)
     hrbox.set("")
@@ -201,169 +218,20 @@ tb.Button(
     padding=10
 ).pack(fill=X, padx=0)
 
-# --- Show Calendar Button and Calendar Window ---
-def show_calendar():
-    cal_win = tb.Toplevel(root)
-    cal_win.title("Calendar - Taskly")
-    cal_win.geometry("700x500")
-    cal_win.resizable(False, False)
+# --- Clear Database Button ---
+clear_db_frame = tb.Frame(form_container, bootstyle="light")
+clear_db_frame.pack(pady=(6, 0))
 
-    today = datetime.today()
-    current_year = [today.year]
-    current_month = [today.month]
+def clear_database():
+    with open("last_task.txt", "w", encoding="utf-8") as f:
+        f.write("")
+    status_var.set("Database cleared.")
 
-    header_frame = tb.Frame(cal_win)
-    header_frame.pack(pady=8)
-
-    month_label = tb.Label(header_frame, text="", font=labelFont)
-    month_label.pack(side=LEFT, padx=10)
-
-    def update_month_label():
-        month_label.config(text=f"{calendar.month_name[current_month[0]]} {current_year[0]}")
-
-    def prev_month():
-        if current_month[0] == 1:
-            current_month[0] = 12
-            current_year[0] -= 1
-        else:
-            current_month[0] -= 1
-        draw_calendar()
-
-    def next_month():
-        if current_month[0] == 12:
-            current_month[0] = 1
-            current_year[0] += 1
-        else:
-            current_month[0] += 1
-        draw_calendar()
-
-    tb.Button(header_frame, text="<", command=prev_month, bootstyle="info").pack(side=LEFT)
-    tb.Button(header_frame, text=">", command=next_month, bootstyle="info").pack(side=LEFT)
-
-    cal_frame = tb.Frame(cal_win)
-    cal_frame.pack(pady=8, fill=BOTH, expand=True)
-
-    def draw_calendar():
-        for widget in cal_frame.winfo_children():
-            widget.destroy()
-        update_month_label()
-        days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-        for col, day in enumerate(days):
-            tb.Label(cal_frame, text=day, font=labelFont, bootstyle="secondary inverse", width=12).grid(row=0, column=col, padx=2, pady=2)
-        month_days = calendar.monthcalendar(current_year[0], current_month[0])
-        for row, week in enumerate(month_days, start=1):
-            for col, day in enumerate(week):
-                box = tb.Frame(cal_frame, bootstyle="light", borderwidth=1, relief="solid", width=120, height=80)
-                box.grid(row=row, column=col, padx=2, pady=2, sticky="nsew")
-                box.grid_propagate(False)
-                if day == 0:
-                    continue
-                date_str = f"{current_year[0]}-{current_month[0]:02d}-{day:02d}"
-                tb.Label(box, text=str(day), font=("Segoe UI", 10, "bold"), bootstyle="secondary").pack(anchor="nw", padx=4, pady=2)
-                # List tasks for this day
-                day_tasks = [task for task in tasks if task['due_date'] == date_str]
-                if day_tasks:
-                    for task in day_tasks[:3]:
-                        tb.Label(box, text=f"{task['name']}", font=("Segoe UI", 9), bootstyle="info").pack(anchor="w", padx=6)
-                    if len(day_tasks) > 3:
-                        tb.Label(box, text=f"+{len(day_tasks)-3} more", font=("Segoe UI", 8), bootstyle="warning").pack(anchor="w", padx=6)
-                else:
-                    tb.Label(box, text="", font=("Segoe UI", 9)).pack()
-
-    draw_calendar()
-
-# Add the Show Calendar button to the Home tab below the Add Task button
-calendar_btn_frame = tb.Frame(form_container, bootstyle="light")
-calendar_btn_frame.pack(pady=(6, 0))
 tb.Button(
-    calendar_btn_frame,
-    text="Show Calendar",
-    command=show_calendar,
-    bootstyle="info",
-    width=18,
-    padding=6
-).pack()
-
-# --- Show Week Calendar Button and Week Calendar Window ---
-def show_week_calendar():
-    cal_win = tb.Toplevel(root)
-    cal_win.title("Week View - Taskly")
-    cal_win.geometry("1600x900")  # Even wider and taller for all days and times
-    cal_win.resizable(True, True)
-
-    today = datetime.today()
-    selected_date = [today]
-
-    header_frame = tb.Frame(cal_win)
-    header_frame.pack(pady=8)
-
-    week_label = tb.Label(header_frame, text="", font=labelFont)
-    week_label.pack(side=LEFT, padx=10)
-
-    def get_week_dates(center_date):
-        # Always start on Sunday
-        start = center_date - timedelta(days=center_date.weekday() + 1 if center_date.weekday() < 6 else 0)
-        return [start + timedelta(days=i) for i in range(7)]
-
-    def update_week_label():
-        week_dates = get_week_dates(selected_date[0])
-        week_label.config(text=f"Week of {week_dates[0].strftime('%b %d, %Y')}")
-
-    def prev_week():
-        selected_date[0] -= timedelta(days=7)
-        draw_week()
-
-    def next_week():
-        selected_date[0] += timedelta(days=7)
-        draw_week()
-
-    tb.Button(header_frame, text="<", command=prev_week, bootstyle="info").pack(side=LEFT)
-    tb.Button(header_frame, text=">", command=next_week, bootstyle="info").pack(side=LEFT)
-
-    cal_frame = tb.Frame(cal_win)
-    cal_frame.pack(pady=8, fill=BOTH, expand=True)
-
-    def draw_week():
-        for widget in cal_frame.winfo_children():
-            widget.destroy()
-        update_week_label()
-        week_dates = get_week_dates(selected_date[0])
-        start_hour = 7
-        end_hour = 22
-        cell_width = 18  # Set both to 18 for perfect alignment
-        # Configure grid weights for even expansion
-        for col in range(8):
-            cal_frame.grid_columnconfigure(col, weight=1)
-        for row in range(end_hour - start_hour + 2):
-            cal_frame.grid_rowconfigure(row, weight=1)
-        # Header row: days
-        tb.Label(cal_frame, text="Time", font=labelFont, bootstyle="secondary inverse", width=cell_width, anchor="center", borderwidth=2, relief="ridge").grid(row=0, column=0, padx=1, pady=1, sticky="nsew")
-        for col, day_date in enumerate(week_dates):
-            day_str = day_date.strftime("%a\n%b %d")
-            tb.Label(cal_frame, text=day_str, font=labelFont, bootstyle="secondary inverse", width=cell_width, anchor="center", borderwidth=2, relief="ridge").grid(row=0, column=col+1, padx=1, pady=1, sticky="nsew")
-        # Time rows
-        for row, hour in enumerate(range(start_hour, end_hour+1), start=1):
-            time_str = f"{hour:02d}:00"
-            tb.Label(cal_frame, text=time_str, font=labelFont, bootstyle="secondary", width=cell_width, anchor="center", borderwidth=1, relief="ridge").grid(row=row, column=0, padx=0, pady=0, sticky="nsew")
-            for col, day_date in enumerate(week_dates):
-                date_str = day_date.strftime("%Y-%m-%d")
-                cell_tasks = [task for task in tasks if task['due_date'] == date_str and task['due_time'].startswith(f"{hour:02d}")]
-                if cell_tasks:
-                    text = "\n".join([task['name'] for task in cell_tasks])
-                else:
-                    text = ""
-                tb.Label(cal_frame, text=text, font=("Segoe UI", 9), anchor="nw", borderwidth=1, relief="ridge", width=cell_width, background="#f8f9fa", justify="left").grid(row=row, column=col+1, padx=0, pady=0, sticky="nsew")
-
-    draw_week()
-
-# Replace the previous Show Week button with this one
-calendar_btn_frame = tb.Frame(form_container, bootstyle="light")
-calendar_btn_frame.pack(pady=(6, 0))
-tb.Button(
-    calendar_btn_frame,
-    text="Show Week",
-    command=show_week_calendar,
-    bootstyle="info",
+    clear_db_frame,
+    text="Clear Database",
+    command=clear_database,
+    bootstyle="danger",
     width=18,
     padding=6
 ).pack()
@@ -377,9 +245,17 @@ for col in columns:
 task_tree.pack(fill=BOTH, expand=True, pady=18, padx=18)
 
 def refresh_tasks():
+    # Configure lighter pastel tag colors
+    task_tree.tag_configure('high', background='#ffe5e5')  # lighter pastel red
+    task_tree.tag_configure('med', background='#fff2cc')   # lighter pastel orange/yellow
+    task_tree.tag_configure('low', background='#e5ffe5')   # lighter pastel green
+    task_tree.tag_configure('completed', background='#ffffff')  # white for completed tasks
+    
     for row in task_tree.get_children():
         task_tree.delete(row)
     for i, task in enumerate(tasks):
+        # Determine which tag to use based on priority or completion
+        tag = 'completed' if task["status"].lower() == 'completed' else task["priority"].lower()
         task_tree.insert("", END, iid=i, values=(
             task["name"],
             task["due_date"],
@@ -387,7 +263,7 @@ def refresh_tasks():
             task["duration"],
             task["priority"],
             task["status"]
-        ))
+        ), tags=(tag,))  # Apply the appropriate tag
     status_var.set(f"{len(tasks)} task(s) loaded.")
 
 def delete_task():
@@ -454,6 +330,27 @@ theme_combo.set(THEMES[2][0])  # Default to Light
 root.style.theme_use(THEMES[2][1])
 theme_combo.pack(pady=8)
 theme_combo.bind("<<ComboboxSelected>>", change_theme)
+
+# --- Reload tasks function ---
+def reload_tasks_from_file():
+    tasks.clear()
+    if os.path.exists("last_task.txt"):
+        with open("last_task.txt", "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        task = ast.literal_eval(line)
+                        tasks.append(task)
+                    except Exception:
+                        pass
+
+def on_tab_changed(event):
+    if notebook.index(notebook.select()) == 1:  # Tasks tab index
+        reload_tasks_from_file()
+        refresh_tasks()
+
+notebook.bind("<<NotebookTabChanged>>", on_tab_changed)
 
 # --- Run the app ---
 refresh_tasks()

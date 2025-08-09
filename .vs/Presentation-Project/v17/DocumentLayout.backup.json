@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\last_task.txt||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:last_task.txt||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\Project-Data Sorting.py||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Project-Data Sorting.py||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
@@ -18,8 +22,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "last_task.txt",
+              "DocumentMoniker": "C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\last_task.txt",
+              "RelativeDocumentMoniker": "last_task.txt",
+              "ToolTip": "C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\last_task.txt",
+              "RelativeToolTip": "last_task.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-08-08T03:01:57.951Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,14 +45,14 @@
               "RelativeDocumentMoniker": "main.py",
               "ToolTip": "C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\main.py",
               "RelativeToolTip": "main.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEABAAAAAAAAAAD4v2UBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-08-06T15:06:28.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Project-Data Sorting.py",
               "DocumentMoniker": "C:\\Users\\TheCo\\OneDrive\\Documents\\GitHub\\Presentation-Project\\Project-Data Sorting.py",
               "RelativeDocumentMoniker": "Project-Data Sorting.py",
@@ -43,8 +60,7 @@
               "RelativeToolTip": "Project-Data Sorting.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-08-06T15:06:26.259Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-06T15:06:26.259Z"
             }
           ]
         }
